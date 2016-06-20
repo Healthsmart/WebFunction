@@ -2,7 +2,7 @@
 
 
 void setup() {
-  Particle.function("webFunc", webFuncCallback, this);
+  Particle.function("webFunc", webFuncCallback);
   Serial.begin(115200);
 }
 
