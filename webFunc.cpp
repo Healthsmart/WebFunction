@@ -1,9 +1,16 @@
 // Code to test com between AWS and Particle Photon
+#include "application.h"
 
+PRODUCT_ID(441);
+PRODUCT_VERSION(2);
+
+int webFuncCallback(String command);
 
 void setup() {
   Particle.function("webFunc", webFuncCallback);
   Serial.begin(115200);
+  pinMode(D7, OUTPUT);
+  digitalWrite(D7, 0);
 }
 
 void loop() {
@@ -71,6 +78,16 @@ int webFuncCallback(String command){
                 commandResults.concat("FAS");
                 commandResults.concat(subCommand);
                 commandResults.concat(':');
+            } else if(subCommand.startsWith("FUN")){
+                subCommand.remove(0,3);
+                Serial.println("Fun Mode "+ subCommand);
+                if(subCommand.toInt()){
+                  digitalWrite(D7, 1);
+                } else {
+                  digitalWrite(D7, 0);
+                }
+                commandResults.concat("FUN");
+                commandResults.concat(subCommand);
             } else if(subCommand.startsWith("POW")){
                 subCommand.remove(0,3);
                 Serial.println("Power " + subCommand);
